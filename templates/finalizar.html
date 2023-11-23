@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" charset="utf-8">
+
+  var variavel_js = "{{ url_socket }}";
+  var socket = io.connect(variavel_js);
+
+  console.log(variavel_js)
+  function removeConfig(tab) {
+    var table = $('#' + tab)[0];
+    var external_id = "{{ id }}";
+    console.log(external_id)
+    $(table).delegate('.tr_clone_del', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var internal_id = thisRow.getElementsByClassName("id")
+      internal_id = internal_id[0].innerHTML
+      console.log(internal_id)
+      socket.emit('event_remove_config_finish', { "external_id": external_id, "internal_id": internal_id, "service": tab });
+      thisRow.remove()
+    });
+  }
+</script>
+
+{% endblock %}
+
+{% set id = id %}
+{% set username = username %}
+{% set configs = configs %}
+
+{% block content %}
+
+
+<div class="page-wrapper">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body wizard-content">
+        <h4 class="card-title">Exportar Configurações para Big-Ip</h4>
+        <h6 class="card-subtitle"></h6>
+        <form method="POST" action="/bigip/send_config/{{ id }}">
+          <div>
+            <h3>Credencial BigIp Destino</h3>
+            <section>
+              <label for="userName">Host </label>
+              <input id="host" name="host" type="text" class="required form-control" />
+              <label for="userName">Username </label>
+              <input id="username" name="username" type="type" class="required form-control" />
+              <label for="password">Password </label>
+              <input id="password" name="password" type="password" class="required form-control" />
+              <p class="text-danger">Obs: Usar usuario admin, liberar acesso "Terminal Access : Advanced shell" via tela
+                grafica, <strong>caso for migrar o user-alert</strong></p>
+            </section>
+          </div>
+          <div class="border-top">
+            <div class="card-body">
+              <button type="submit" class="btn btn-primary">
+                Conectar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% if errors != [] %}
+    <div class="card">
+      <div class="card-body wizard-content">
+        <h4 class="card-title">Lista de possiveis erros </h4>
+        <h6 class="card-subtitle"></h6>
+        <div>
+          <section>
+            {% for erro in errors %}
+            <label><img src="{{url_for('static', filename = '/assets/images/atencao.png')}}" alt="homepage"
+                class="light-logo" width="20" /> {{ erro[0] }}</label>
+            <br>
+            {% endfor %}
+          </section>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+
+    <div id="overlay">
+      <div class="edit" id="container">
+        <h3 id="name_edit"></h3>
+        <div class="container-fluid">
+          <div class="card">
+            <form method="POST" action='/bigip/alter_config/{{ id }}'>
+              <div class="form-group row" id="div_edit">
+
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Salvar
+              </button>
+            </form>
+          </div>
+        </div>
+        <button id="closeButton" onclick="close_window()">Fechar</button>
+      </div>
+    </div>
+
+    <h3>Configurações Selecionadas</h3>
+    {% for key in keys %}
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="fname" class="col-sm-10  control-label col-form-label">{{ key }}</label>
+            </div>
+            <div class="table-responsive">
+              <table id="{{ key }}" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    {% for config in configs[key][0].keys() %}
+                    <th scope="col">{{ config }}</th>
+                    {% endfor %}
+                    <th scope="col">Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for config in configs[key] %}
+                  <tr>
+                    {% for chave in config.keys() %}
+
+                    <td class="{{ chave }}" style="white-space: pre-line;">{{ config[chave] }}</td>
+                    {% endfor %}
+                    <td class="external_id" style="white-space: pre-line;" hidden>{{ id }}</td>
+                    <td>
+                      <button type="submit" data-toggle="tooltip" name="del" value="del" class="tr_clone_del"
+                        data-placement="top" title="Excluir" onclick="removeConfig('{{ key }}')">Excluir</button>
+                      <button type="submit" data-toggle="tooltip" name="del" value="del" class="tr_clone_edit"
+                        data-placement="top" title="Editar" onclick="editConfig('{{ key }}')">Editar</button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Comands Editor</h4>
+            <div id="editor" style="height: 500px">
+              {% for comand in list_comands %}
+              <p>{{ comand }}</p>
+              {% endfor %}
+              <p>
+                <br />
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="{{url_for('static', filename = '/dist/js/script.js')}}" url="{{ url_socket }}"></script>
+{% endblock %}

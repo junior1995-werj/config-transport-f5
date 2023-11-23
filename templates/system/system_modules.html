@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type="text/javascript" charset="utf-8">
+
+  $(document).ready(function () {
+
+    var variavel_js = "{{ url_socket }}";
+    var socket = io.connect(variavel_js);
+
+    socket.on("transport_config_new_line", function (msg) {
+      console.log(msg)
+      $('#lines_transport_config').append(msg.message);
+    });
+
+    socket.on("transport_config_all", function (msg) {
+      console.log(msg)
+      $('#lines_header').remove()
+      $('#lines_transport_config').append(msg.message);
+    });
+
+    socket.on("return_add", function (msg) {
+      console.log(msg)
+      if (msg.status) {
+        alert("Item Adicionado!")
+      }
+      else {
+        alert("Item não adicionado, ja esta na lista!")
+      }
+    });
+
+    var table = $('#zero_config')[0];
+    $(table).delegate('.tr_clone_add', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var internal_id = thisRow.getElementsByTagName("td")[0].innerHTML
+      var external_id = thisRow.getElementsByTagName("td")[4].innerHTML
+      console.log(internal_id)
+      console.log(external_id)
+      socket.emit('event_add_config', { internal_id: internal_id, external_id: external_id, service: "vlan" });
+    });
+
+    var table = $('#table-header')[0];
+    $(table).delegate('.tr_clone_remove', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var external_id = thisRow.getElementsByTagName("td")[1].innerHTML
+      var internal_id = thisRow.getElementsByTagName("td")[2].innerHTML
+      var id = thisRow.getElementsByTagName("td")[3].innerHTML
+      console.log({ internal_id: internal_id, external_id: external_id, id: id })
+      socket.emit('event_remove_config', { internal_id: internal_id, external_id: external_id, id: id });
+    });
+  });
+</script>
+{% endblock %}
+
+{% set id = id %}
+{% set username = username %}
+{% set configs = configs %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-0">Vlans List</h5>
+          </div>
+          <table class="table" id="zero_config">
+            <thead>
+              <tr>
+                <th scope="col" hidden>id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">provision_level</th>
+                <th scope="col">licensed</th>
+                <th scope="col">expiration_date</th>
+                <th scope="col" hidden>External_id</th>
+              </tr>
+            </thead>
+            <tbody id="table_pool">
+              {% for system_module in system_modules %}
+              <tr id="tr_connections" class="tr_connections">
+                <td hidden>{{ system_module['id'] }}</td>
+                <td>{{ system_module['name'] }}</td>
+                {% if system_module['provision_level'] == "4" %}
+                  <td>Dedicated</td>
+                {% elif system_module['provision_level'] == "3" %}
+                  <td>Nominal</td>
+                {% elif system_module['provision_level'] == "2" %}
+                  <td>Minimum</td>
+                {% else %}
+                  <td>None</td>
+                {% endif %}
+                {% if system_module['licensed'] == "1" %}
+                  <td><img src="{{url_for('static', filename = '/assets/images/icon_licensed.png')}}" alt="homepage"
+                    class="light-logo" width="30" />Licensed</td>
+                {% else %}
+                <td><img src="{{url_for('static', filename = '/assets/images/icon_unlicensed.png')}}" alt="homepage"
+                  class="light-logo" width="30" />Unlicensed</td>
+                {% endif %}
+
+                <td>{{ system_module['expiration_date'] }}</td>
+                <td hidden>{{ system_module['external_id'] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{url_for('static', filename = '/dist/js/script.js')}}" url="{{ url_socket }}"></script>
+{% endblock %}

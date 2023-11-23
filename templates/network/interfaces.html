@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type="text/javascript" charset="utf-8">
+
+  $(document).ready(function () {
+
+    var variavel_js = "{{ url_socket }}";
+    var socket = io.connect(variavel_js);
+    socket.on("transport_config_new_line", function (msg) {
+      console.log(msg)
+      $('#lines_transport_config').append(msg.message);
+    });
+
+    socket.on("transport_config_all", function (msg) {
+      console.log(msg)
+      $('#lines_header').remove()
+      $('#lines_transport_config').append(msg.message);
+    });
+
+    socket.on("return_add", function (msg) {
+      console.log(msg)
+      if (msg.status) {
+        alert("Item Adicionado!")
+      }
+      else {
+        alert("Item não adicionado, ja esta na lista!")
+      }
+    });
+
+    var table = $('#zero_config')[0];
+    $(table).delegate('.tr_clone_add', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var internal_id = thisRow.getElementsByTagName("td")[0].innerHTML
+      var external_id = thisRow.getElementsByTagName("td")[4].innerHTML
+      console.log(internal_id)
+      console.log(external_id)
+      socket.emit('event_add_config', { internal_id: internal_id, external_id: external_id, service: "interface" });
+    });
+
+    var table = $('#table-header')[0];
+    $(table).delegate('.tr_clone_remove', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var external_id = thisRow.getElementsByTagName("td")[1].innerHTML
+      var internal_id = thisRow.getElementsByTagName("td")[2].innerHTML
+      var id = thisRow.getElementsByTagName("td")[3].innerHTML
+      console.log({ internal_id: internal_id, external_id: external_id, id: id })
+      socket.emit('event_remove_config', { internal_id: internal_id, external_id: external_id, id: id });
+    });
+
+    $('form#all_config').submit(function (event) {
+      console.log($('#id_conection').val())
+      socket.emit('event_add_all_config_default', {
+        external_id: $('#id_conection').val(),
+        service: "interface"
+      });
+      return false;
+    });
+  });
+</script>
+{% endblock %}
+
+{% set id = id %}
+{% set username = username %}
+{% set configs = configs %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form id="all_config" method="POST" action='#'>
+              <div class="form-group row">
+                <label for="fname" class="col-sm-10  control-label col-form-label">Interfaces List</label>
+                <input type="text" for="fname"  id="id_conection" value="{{ id }}" disabled="" hidden />
+              </div>
+            </form>
+
+            <div class="table-responsive">
+              <table
+                id="zero_config"
+                class="table table-striped table-bordered"
+              >
+                <thead>
+                  <tr>
+                <th scope="col" hidden>id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Vendor Name</th>
+                <th scope="col">Vendor Partnum</th>
+                <th scope="col">Serial Number</th>
+                <th scope="col">MAC Addr</th>
+                <th scope="col">MTU</th>
+                <th scope="col" hidden>External_id</th>
+              </tr>
+            </thead>
+            <tbody id="table_pool">
+              {% for interface in interfaces %}
+              <tr id="tr_connections" class="tr_connections">
+                <td hidden>{{ interface['id'] }}</td>
+                <td>{{ interface['name'] }}</td>
+                <td>{{ interface['vendor_name'] }}</td>
+                <td>{{ interface['vendor_partnum'] }}</td>
+                <td>{{ interface['serial_number'] }}</td>
+                <td>{{ interface['mac_addr'] }}</td>
+                <td>{{ interface['mtu'] }}</td>
+                <td hidden>{{ interface['external_id'] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{url_for('static', filename = '/dist/js/script.js')}}" url="{{ url_socket }}"></script>
+{% endblock %}

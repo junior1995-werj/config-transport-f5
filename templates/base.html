@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords"
+    content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template" />
+  <meta name="description"
+    content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Agility F5</title>
+  <!-- Favicon icon -->
+  <link rel="icon" href="https://somosagility.com.br/wp-content/themes/agility/favicon.png">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css"
+    href="{{url_for('static', filename = '/assets/libs/select2/dist/css/select2.min.css')}}" />
+  <link rel="stylesheet" type="text/css"
+    href="{{url_for('static', filename = '/assets/libs/jquery-minicolors/jquery.minicolors.css')}}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css"
+    href="{{url_for('static', filename = '/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" />
+  <link rel="stylesheet" type="text/css"
+    href="{{url_for('static', filename = '/assets/libs/quill/dist/quill.snow.css')}}" />
+  <link href="{{url_for('static', filename = '/dist/css/style.min.css')}}" rel="stylesheet" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"
+    integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ=="
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+
+</head>
+{% block script %}{% endblock %}
+
+<body>
+  <div class="preloader">
+    <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+    </div>
+  </div>
+  <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+    data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
+    <header class="topbar" data-navbarbg="skin5">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <div class="navbar-header" data-logobg="skin5">
+          <!-- ============================================================== -->
+          <!-- Logo -->
+          <!-- ============================================================== -->
+          <a class="navbar-brand" href="/index">
+
+            <b class="logo-icon ps-2">
+
+              <img src="{{url_for('static', filename = '/assets/images/agility.png')}}" alt="homepage"
+                class="light-logo" width="100" />
+            </b>
+          </a>
+
+          <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+              class="ti-menu ti-close"></i></a>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+          <!-- ============================================================== -->
+          <!-- toggle and nav items -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav float-start me-auto">
+            <li class="nav-item d-none d-lg-block">
+              <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
+                data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a>
+            </li>
+            <ul class="navbar-nav float-end">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="2" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="d-none d-md-block">Selecionados <i class="fa fa-angle-down"></i></span>
+                </a>
+                <ul class="
+                dropdown-menu
+                mailbox
+                animated
+                bounceInDown
+              " aria-labelledby="4">
+                  <ul class="list-style-none">
+                    <li>
+                      <div class="">
+
+
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="card-table">
+                              <table class="table" id="table-header">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Serviço</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Remover</th>
+                                  </tr>
+                                </thead>
+                                {% block nav %}
+                                <tbody id="lines_transport_config">
+                                  {% for config in configs %}
+                                  <tr id="tr_connections" class="tr_connections">
+                                    <td>{{ config.service }} : </td>
+                                    <td>{{ config.name }} </td>
+                                    <td hidden>{{ config.external_id }}</td>
+                                    <td hidden>{{ config.internal_id }}</td>
+                                    <td hidden>{{ config.id }}</td>
+                                    <td><button type="submit" data-toggle="tooltip" name="del" value="del"
+                                        class="tr_clone_remove" data-placement="top" title="remover"><i
+                                          class="mdi mdi-close"></i></button>
+                                    </td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                                {% endblock %}
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </li>
+                  </ul>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+          <ul class="navbar-nav float-end">
+
+            <!-- ============================================================== -->
+            <!-- User profile and search -->
+            <!-- ============================================================== -->
+            <li class="nav-item dropdown">
+              <a
+                class="
+                  nav-link
+                  dropdown-toggle
+                  text-muted
+                  waves-effect waves-dark
+                  pro-pic
+                "
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src="{{url_for('static', filename = '/assets/images/d3.jpg')}}"
+                  class="rounded-circle"
+                  width="31"
+                />
+                {{ username }}
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end user-dd animated"
+                aria-labelledby="navbarDropdown"
+              >
+                <a href="/logout" class="dropdown-item" href="javascript:void(0)"
+                  ><i class="fa fa-power-off me-1 ms-1"></i> Logout</a
+                >
+              </ul>
+            </li>
+            <!-- ============================================================== -->
+            <!-- User profile and search -->
+            <!-- ============================================================== -->
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <aside class="left-sidebar" data-sidebarbg="skin5">
+      <!-- Sidebar scroll-->
+      <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+          <ul id="sidebarnav" class="pt-4">
+
+            <li class="sidebar-item">
+              <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/bigip/{{ id }}"
+                aria-expanded="false"><i class="fas fa-star"></i><span class="hide-menu">Inicio</span></a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                aria-expanded="false"><img src="{{url_for('static', filename = '/assets/images/ltm.png')}}" /><span
+                  class="hide-menu">LTM </span></a>
+
+              <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item">
+                  <a href="/bigip/pool/{{ id }}" class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span
+                      class="hide-menu">
+                      Pool </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/virtual_server/{{ id }}" class="sidebar-link"><i class="fas fa-laptop"></i><span
+                      class="hide-menu"> Vitual Server </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/datagroup/{{ id }}" class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span
+                      class="hide-menu"> Datagroups </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/irule/{{ id }}" class="sidebar-link"><i class="mdi mdi-calendar-check"></i><span
+                      class="hide-menu"> iRules </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/monitor/{{ id }}" class="sidebar-link"><i class="fab fa-telegram-plane"></i><span
+                      class="hide-menu"> Monitor </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/profiles/{{ id }}" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span
+                      class="hide-menu"> Profiles </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/policies/{{ id }}" class="sidebar-link"><i class="fas fa-lock"></i><span
+                      class="hide-menu"> Policies </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/snat/{{ id }}" class="sidebar-link"><i class="mdi mdi-multiplication-box"></i><span
+                      class="hide-menu"> Snat </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/snat_pool/{{ id }}" class="sidebar-link"><i class="fas fa-location-arrow"></i><span
+                      class="hide-menu"> Snat Pool </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/nat/{{ id }}" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span
+                      class="hide-menu"> Nat </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                    aria-expanded="false"> <i class="mdi mdi-message-reply-text"></i><span class="hide-menu">Message
+                      Routing (MRF)</span></a>
+                  <ul aria-expanded="false" class="collapse first-level">
+                    <li class="sidebar-item">
+                      <a href="/bigip/peer/{{ id }}" class="sidebar-link"><i class="mdi mdi-lan-connect"></i><span
+                          class="hide-menu">
+                          Peer </span></a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a href="/bigip/protocol/{{ id }}" class="sidebar-link"><i class="mdi mdi-web"></i><span
+                          class="hide-menu">
+                          Protocol </span></a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a href="/bigip/route/{{ id }}" class="sidebar-link"><i class="mdi mdi-airplane-takeoff"></i><span
+                          class="hide-menu">
+                          Route</span></a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a href="/bigip/router/{{ id }}" class="sidebar-link"><i class="mdi mdi-routes"></i><span
+                          class="hide-menu">
+                          Router </span></a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a href="/bigip/transport_config/{{ id }}" class="sidebar-link"><i
+                          class="far far fa-compass"></i><span class="hide-menu">
+                          Trnasport Config </span></a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                aria-expanded="false"><img src="{{url_for('static', filename = '/assets/images/network.png')}}"
+                  width="40" /><span class="hide-menu">Network </span></a>
+              <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item">
+                  <a href="/bigip/vlans/{{ id }}" class="sidebar-link"><i class="mdi mdi-lan-connect"></i><span
+                      class="hide-menu">
+                      Vlans </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/trunks/{{ id }}" class="sidebar-link"><i class="mdi mdi-web"></i><span
+                      class="hide-menu">
+                      Trunks </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/self_ip/{{ id }}" class="sidebar-link"><i class="mdi mdi-airplane-takeoff"></i><span
+                      class="hide-menu">
+                      Self Ip </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/routes_statics/{{ id }}" class="sidebar-link"><i class="mdi mdi-routes"></i><span
+                      class="hide-menu">
+                      Rotas Staticas </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/interfaces/{{ id }}" class="sidebar-link"><i class="far far fa-compass"></i><span
+                      class="hide-menu">
+                      Interfaces </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/routes_domains/{{ id }}" class="sidebar-link"><i
+                      class="mdi mdi-router-wireless"></i><span class="hide-menu">
+                      Routes Domains </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/packet_filters_rule/{{ id }}" class="sidebar-link"><i
+                      class="mdi mdi-package-variant"></i><span class="hide-menu">
+                      Packet Filters Rule </span></a>
+                </li>
+              </ul>
+            </li>
+
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                aria-expanded="false"><img src="{{url_for('static', filename = '/assets/images/gtm.png')}}"
+                  width="40" /><span class="hide-menu">DNS </span></a>
+              <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item">
+                  <a href="/bigip/datacenter/{{ id }}" class="sidebar-link"><i class="mdi mdi-database"></i><span
+                      class="hide-menu">
+                      Datacenters </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/server_gtm/{{ id }}" class="sidebar-link"><i class="mdi mdi-server-network"></i><span
+                      class="hide-menu">
+                      Server GTM </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/server_ip/{{ id }}" class="sidebar-link"><i class="mdi mdi-tag-multiple"></i><span
+                      class="hide-menu">
+                      Server Ip </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/wide_ip/{{ id }}" class="sidebar-link"><i
+                      class="mdi mdi-panorama-wide-angle"></i><span class="hide-menu">
+                      Wide Ip </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/pool_wide_ip/{{ id }}" class="sidebar-link"><i class="mdi mdi-pool"></i><span
+                      class="hide-menu">
+                      Pool Wide Ip </span></a>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                aria-expanded="false"><img src="{{url_for('static', filename = '/assets/images/system.png')}}"
+                  width="40" /><span class="hide-menu">System </span></a>
+              <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item">
+                  <a href="/bigip/system_information/{{ id }}" class="sidebar-link"><i class="fas fa-info"></i><span
+                      class="hide-menu">
+                      System Information </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/devicegroup/{{ id }}" class="sidebar-link"><i class="far fa-object-ungroup"></i><span
+                      class="hide-menu">
+                      Devicegroup </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/folders/{{ id }}" class="sidebar-link"><i class="fas fa-folder"></i><span
+                      class="hide-menu">
+                      Folders </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/system_module/{{ id }}" class="sidebar-link"><i
+                      class="fas fa-assistive-listening-systems"></i><span class="hide-menu">
+                      System Module </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/sys_device/{{ id }}" class="sidebar-link"><i class="far fa-share-square"></i><span
+                      class="hide-menu">
+                      Sys Device </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/chassis/{{ id }}" class="sidebar-link"><i class="fas fa-calculator"></i><span
+                      class="hide-menu">
+                      Chassis </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/icall/{{ id }}" class="sidebar-link"><i class="fas fa-prescription-bottle"></i><span
+                      class="hide-menu">
+                      iCall </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/traffic_group/{{ id }}" class="sidebar-link"><i class="fas fa-train"></i><span
+                      class="hide-menu">
+                      Traffic Group </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/users/{{ id }}" class="sidebar-link"><i class="fas fa-user"></i><span
+                      class="hide-menu">
+                      User </span></a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/bigip/user_alert/{{ id }}" class="sidebar-link"><i class="mdi mdi-sim-alert"></i><span
+                      class="hide-menu">
+                      User Alert </span></a>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                aria-expanded="false"><img src="{{url_for('static', filename = '/assets/images/icon_asm.png')}}"
+                  width="40" /><span class="hide-menu">Security </span></a>
+              <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item">
+                  <a href="/bigip/n-a/{{ id }}" class="sidebar-link"><i class="fas fa-info"></i><span class="hide-menu">
+                      n/a </span></a>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/bigip/finalizar/{{ id }}"
+                aria-expanded="false"><i class="fas fa-flag-checkered"></i><span class="hide-menu">Finalizar</span></a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/bigip/config_import/{{ id }}"
+                aria-expanded="false"><i class="mdi mdi-import"></i><span class="hide-menu">Configurações
+                  Importadas</span></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+    {% block content %}{% endblock %}
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+      data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+      <div class="page-wrapper"></div>
+      <footer class="footer text-center">
+        <a href="https://somosagility.com.br/">Agility</a>
+      </footer>
+    </div>
+  </div>
+  <script src="{{url_for('static', filename = '/assets/libs/jquery/dist/jquery.min.js')}}"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="{{url_for('static', filename = '/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script
+    src="{{url_for('static', filename = '/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/extra-libs/sparkline/sparkline.js')}}"></script>
+  <!--Wave Effects -->
+  <script src="{{url_for('static', filename = '/dist/js/waves.js')}}"></script>
+  <!--Menu sidebar -->
+  <script src="{{url_for('static', filename = '/dist/js/sidebarmenu.js')}}"></script>
+  <!--Custom JavaScript -->
+  <script src="{{url_for('static', filename = '/dist/js/custom.min.js')}}"></script>
+  <!-- This Page JS -->
+  <script
+    src="{{url_for('static', filename = '/assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/libs/select2/dist/js/select2.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/libs/jquery-asColor/dist/jquery-asColor.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/libs/jquery-asGradient/dist/jquery-asGradient.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/extra-libs/DataTables/datatables.min.js')}}"></script>
+  <script
+    src="{{url_for('static', filename = '/assets/libs/jquery-asColorPicker/dist/jquery-asColorPicker.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/libs/jquery-minicolors/jquery.minicolors.min.js')}}"></script>
+  <script
+    src="{{url_for('static', filename = '/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+  <script>$("#zero_config").DataTable();</script>
+
+  <script src="{{url_for('static', filename = '/assets/libs/quill/dist/quill.min.js')}}"></script>
+  <script>
+    $(".select2").select2();
+
+    $(".demo").each(function () {
+      $(this).minicolors({
+        control: $(this).attr("data-control") || "hue",
+        position: $(this).attr("data-position") || "bottom left",
+
+        change: function (value, opacity) {
+          if (!value) return;
+          if (opacity) value += ", " + opacity;
+          if (typeof console === "object") {
+            console.log(value);
+          }
+        },
+        theme: "bootstrap",
+      });
+    });
+    /*datwpicker*/
+    jQuery(".mydatepicker").datepicker();
+    jQuery("#datepicker-autoclose").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+    });
+    var quill = new Quill("#editor", {
+      theme: "snow",
+    });
+  </script>
+</body>
+
+</html>

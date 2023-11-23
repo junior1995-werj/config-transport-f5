@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords"
+        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template" />
+    <meta name="description"
+        content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Agility F5</title>
+    <!-- Favicon icon -->
+    <link rel="icon" href="https://somosagility.com.br/wp-content/themes/agility/favicon.png">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css"
+        href="{{url_for('static', filename = '/assets/libs/select2/dist/css/select2.min.css')}}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{url_for('static', filename = '/assets/libs/jquery-minicolors/jquery.minicolors.css')}}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{url_for('static', filename = '/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{url_for('static', filename = '/assets/libs/quill/dist/quill.snow.css')}}" />
+    <link href="{{url_for('static', filename = '/dist/css/style.min.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename = '/assets/libs/jquery-steps/jquery.steps.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename = '/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"
+        integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ=="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" charset="utf-8">
+
+        $(document).ready(function () {
+
+            var variavel_js = "{{ url_socket }}";
+            var socket = io.connect(variavel_js);
+
+            socket.on('connect', function (msg) {
+                console.log(msg)
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header" data-logobg="skin5">
+                    <a class="navbar-brand" href="/index">
+                        <!-- Logo icon -->
+                        <b class="logo-icon ps-2">
+                            <img src="{{url_for('static', filename = '/assets/images/agility.png')}}" alt="homepage"
+                                class="light-logo" width="100" />
+                        </b>
+                    </a>
+
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                            class="ti-menu ti-close"></i></a>
+                </div>
+
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <ul class="navbar-nav float-start me-auto">
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
+                                data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav float-end">
+
+
+                        <li class="nav-item dropdown">
+                            <a class="
+                  nav-link
+                  dropdown-toggle
+                  text-muted
+                  waves-effect waves-dark
+                  pro-pic
+                " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{url_for('static', filename = '/assets/images/d3.jpg')}}"
+                                    class="rounded-circle" width="31" />
+                                {{ username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end user-dd animated"
+                                aria-labelledby="navbarDropdown">
+                                <a href="/logout" class="dropdown-item" href="javascript:void(0)"><i
+                                        class="fa fa-power-off me-1 ms-1"></i> Logout</a>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </header>
+        <aside class="left-sidebar" data-sidebarbg="skin5">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav" class="pt-4">
+                        <li class="sidebar-item">
+                            <a href="/new_config" class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span
+                                    class="hide-menu">
+                                    Criar nova Configuração </span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Form Wizard</h4>
+                        <div class="ms-auto text-end">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Library
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body wizard-content">
+                        <h4 class="card-title">Basic Form Example</h4>
+                        <h6 class="card-subtitle"></h6>
+                        <form id="example-form" action="#" class="mt-5">
+                            <div>
+                                <h3>Account</h3>
+                                <section>
+                                    <label for="userName">User name *</label>
+                                    <input id="userName" name="userName" type="text" class="required form-control" />
+                                    <label for="password">Password *</label>
+                                    <input id="password" name="password" type="text" class="required form-control" />
+                                    <label for="confirm">Confirm Password *</label>
+                                    <input id="confirm" name="confirm" type="text" class="required form-control" />
+                                    <p>(*) Mandatory</p>
+                                </section>
+                                <h3>Profile</h3>
+                                <section>
+                                    <label for="name">First name *</label>
+                                    <input id="name" name="name" type="text" class="required form-control" />
+                                    <label for="surname">Last name *</label>
+                                    <input id="surname" name="surname" type="text" class="required form-control" />
+                                    <label for="email">Email *</label>
+                                    <input id="email" name="email" type="text" class="required email form-control" />
+                                    <label for="address">Address</label>
+                                    <input id="address" name="address" type="text" class="form-control" />
+                                    <p>(*) Mandatory</p>
+                                </section>
+                                <h3>Hints</h3>
+                                <section>
+                                    <ul>
+                                        <li>Foo</li>
+                                        <li>Bar</li>
+                                        <li>Foobar</li>
+                                    </ul>
+                                </section>
+                                <h3>Finish</h3>
+                                <section>
+                                    <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required" />
+                                    <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                                </section>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer text-center">
+                <a href="https://somosagility.com.br/">Agility</a>
+            </footer>
+        </div>
+    </div>
+    <script src="{{url_for('static', filename = '/assets/libs/jquery/dist/jquery.min.js')}}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{{url_for('static', filename = '/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script
+        src="{{url_for('static', filename = '/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename = '/assets/extra-libs/sparkline/sparkline.js')}}"></script>
+    <!--Wave Effects -->
+    <script src="{{url_for('static', filename = '/dist/js/waves.js')}}"></script>
+    <!--Menu sidebar -->
+    <script src="{{url_for('static', filename = '/dist/js/sidebarmenu.js')}}"></script>
+    <!--Custom JavaScript -->
+    <script src="{{url_for('static', filename = '/dist/js/custom.min.js')}}"></script>
+    <!-- This Page JS -->
+    <script src="{{url_for('static', filename = '/assets/extra-libs/DataTables/datatables.min.js')}}"></script>
+    <script
+        src="{{url_for('static', filename = '/assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename = '/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
+    <script src="{{url_for('static', filename = '/assets/libs/select2/dist/js/select2.min.js')}}"></script>
+    <script src="{{url_for('static', filename = '/assets/libs/jquery-asColor/dist/jquery-asColor.min.js')}}"></script>
+    <script src="{{url_for('static', filename = '/assets/libs/jquery-asGradient/dist/jquery-asGradient.js')}}"></script>
+    <script
+        src="{{url_for('static', filename = '/assets/libs/jquery-asColorPicker/dist/jquery-asColorPicker.min.js')}}"></script>
+    <script src="{{url_for('static', filename = '/assets/libs/jquery-minicolors/jquery.minicolors.min.js')}}"></script>
+    <script
+        src="{{url_for('static', filename = '/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+
+    <script src="{{url_for('static', filename = '/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
+    <script
+        src="{{url_for('static', filename = '/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
+
+    <script>
+
+
+        // Basic Example with form
+        var form = $("#example-form");
+        form.validate({
+            errorPlacement: function errorPlacement(error, element) {
+                element.before(error);
+            },
+            rules: {
+                confirm: {
+                    equalTo: "#password",
+                },
+            },
+        });
+        form.children("div").steps({
+            headerTag: "h3",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid();
+            },
+            onFinishing: function (event, currentIndex) {
+                form.validate().settings.ignore = ":disabled";
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+                alert("Submitted!");
+            },
+        });
+    </script>
+</body>
+
+</html>

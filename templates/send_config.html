@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type="text/javascript" charset="utf-8">
+
+  $(document).ready(function () {
+
+    var variavel_js = "{{ url_socket }}";
+    var socket = io.connect(variavel_js);
+
+    socket.emit('connecting',{"message":"ok"})
+
+    socket.on('init_migration', function (msg) {
+      var external_id = document.getElementById("external_id")
+      var username = document.getElementById("username")
+      var host = document.getElementById("host")
+      var password = document.getElementById("password")
+      console.log(external_id.value)
+      socket.emit('send_services_new_big_ip', {host:host.value, external_id:external_id.value, username:username.value, password:password.value});
+    });
+
+
+
+
+    socket.on("process_execute", function (msg) {
+      console.log(msg)
+      $('#table_execute').append(msg.message);
+    });
+
+
+    var table = $('#zero_config')[0];
+    $(table).delegate('.tr_clone_add', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var internal_id = thisRow.getElementsByTagName("td")[0].innerHTML
+      var external_id = thisRow.getElementsByTagName("td")[4].innerHTML
+      console.log(internal_id)
+      console.log(external_id)
+      socket.emit('event_add_config', { internal_id: internal_id, external_id: external_id, service: "vlan" });
+    });
+
+    var table = $('#table-header')[0];
+    $(table).delegate('.tr_clone_remove', 'click', function () {
+      var thisRow = $(this).closest("tr")[0];
+      var external_id = thisRow.getElementsByTagName("td")[1].innerHTML
+      var internal_id = thisRow.getElementsByTagName("td")[2].innerHTML
+      var id = thisRow.getElementsByTagName("td")[3].innerHTML
+      console.log({ internal_id: internal_id, external_id: external_id, id: id })
+      socket.emit('event_remove_config', { internal_id: internal_id, external_id: external_id, id: id });
+    });
+  });
+</script>
+{% endblock %}
+
+{% set id = id %}
+{% set configs = [] %}
+
+{% block content %}
+
+<div class="page-wrapper">
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form id="all_config" method="POST" action='#'>
+              <div class="form-group row">
+                <input type="text" id="external_id" name="external_id" class="card-title mb-0" value="{{ id }}" hidden/>
+                <input type="text" id="host" name="host" class="card-title mb-0" value="{{ host }}" hidden/>
+                <input type="text" id="username" name="username" class="card-title mb-0" value="{{ username }}" hidden/>
+                <input type="text" id="password" name="password" class="card-title mb-0" value="{{ password }}" hidden/>
+                <h5 class="card-title mb-0">Execução de importação:</h5>
+              </div>
+            </form>
+            <div class="table-responsive">
+              <table
+
+                class="table table-striped table-bordered"
+              >
+                <thead>
+                  <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Serviço</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Reason</th>
+              </tr>
+            </thead>
+            <tbody id="table_execute">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

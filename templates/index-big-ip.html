@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block script %}
+
+<script type="text/javascript" charset="utf-8">
+
+  $(document).ready(function () {
+
+    var variavel_js = "{{ url_socket }}";
+    var socket = io.connect(variavel_js);
+
+    socket.on("transport_config_new_line", function (msg) {
+      console.log(msg)
+      $('#lines_transport_config').append(msg.message);
+    });
+
+    socket.on("transport_config_all", function (msg) {
+      console.log(msg)
+      $('#lines_header').remove()
+      $('#lines_transport_config').append(msg.message);
+    });
+
+    socket.on("return_add", function (msg) {
+      console.log(msg)
+      if (msg.status) {
+        alert("Item Adicionado!")
+      }
+      else {
+        alert("Item não adicionado, ja esta na lista!")
+      }
+    });
+
+    $('form#configs').submit(function (event) {
+
+      socket.emit('event_add_config_default', {
+        id: $('#id_conection').val(),
+        name: "default",
+        username: $('#username').val(),
+        ntp_servers: $('#ntp_servers').val(),
+        ntp_timezone: $('#ntp_timezone').val(),
+        dns_name_servers: $('#dns_name_servers').val(),
+        dns_search: $('#dns_search').val(),
+        gateway: $('#gateway').val(),
+        snmp_contact: $('#snmp_contact').val(),
+        snmp_location: $('#snmp_location').val(),
+        snmp_allowed: $('#snmp_allowed').val()
+      });
+      return false;
+    });
+
+  });
+</script>
+{% endblock %}
+
+{% set id = id %}
+{% set username = username %}
+{% set configs = configs %}
+
+{% block content %}
+
+<div class="page-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <form id="configs" method="POST" action='#'>
+              <h4 class="card-title">Informações</h4>
+              <div class="form-group row">
+                <label for="fname" class="col-sm-1 text-end control-label col-form-label">Host: </label>
+                <div class="col-sm-11">
+                  <label for="fname" class="col-sm-5 control-label col-form-label">{{ data['host'] }}</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">Username: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="username"
+                    value="{{ data['username'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">Data Importação: </label>
+                <div class="col-sm-11">
+                  <label for="fname" class="col-sm-5  control-label col-form-label">{{ data['date_conection']
+                    }}</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">Id Conexão: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="id_conection"
+                    value="{{ data['id'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">Versão: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label"
+                    value="{{ data['version'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">Hostname: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label"
+                    value="{{ data['hostname'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">NTP Servers: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="ntp_servers"
+                    value="{{ data['ntp_servers'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">NTP Timezone: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="ntp_timezone"
+                    value="{{ data['ntp_timezone'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">DNS Name Servers: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="dns_name_servers"
+                    value="{{ data['dns_name_servers'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">DNS Search: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="dns_search"
+                    value="{{ data['dns_search'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">IP Management: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label"
+                    value="{{ data['ip_management'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">Gateway: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="gateway"
+                    value="{{ data['gateway'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">SNMP Contact: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="snmp_contact"
+                    value="{{ data['snmp_contact'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">SNMP Location: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="snmp_location"
+                    value="{{ data['snmp_location'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lname" class="col-sm-1 text-end control-label col-form-label">SNMP Allowed: </label>
+                <div class="col-sm-11">
+                  <input type="text" for="fname" class="col-sm-7  control-label col-form-label" id="snmp_allowed"
+                    value="{{ data['snmp_allowed'] }}" disabled="" />
+                </div>
+              </div>
+              <div class="border-top">
+                <div class="card-body">
+                  <button type="submit" class="btn btn-primary">
+                    Adicionar configurações
+                  </button>
+                  <p>* Apenas as seguintes configurações serão adicionadas: SNMP, Gateway, DNS, NTP e Username</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

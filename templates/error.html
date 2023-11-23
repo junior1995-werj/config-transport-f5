@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords"
+    content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template" />
+  <meta name="description"
+    content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Agility F5</title>
+  <!-- Favicon icon -->
+  <link rel="icon" href="https://somosagility.com.br/wp-content/themes/agility/favicon.png">
+  <!-- Custom CSS -->
+  <link href="{{url_for('static', filename = '/dist/css/style.min.css')}}" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+      <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+      </div>
+    </div>
+    <div class="error-box">
+      <div class="text-center pt-3 pb-3">
+        <a href="/">
+          <span class="db"><img src="{{url_for('static', filename = '/assets/images/agility.png')}}" alt="homepage"
+              class="light-logo" width="150" />
+            <img src="{{url_for('static', filename = '/assets/images/f5.png')}}" alt="homepage" class="light-logo"
+              width="150" />
+          </span>
+        </a>
+      </div>
+      <div class="error-body text-center">
+        <h1 class="error-title text-danger">{{ status_code_error }}</h1>
+        {% if status_code_error == 404 %}
+        <h3 class="text-uppercase error-subtitle">Pagina não encontrada</h3>
+        {% else %}
+        <h3 class="text-uppercase error-subtitle">Error</h3>
+        {% endif %}
+        <p class="text-muted mt-4 mb-4">
+          {{ error }}
+        </p>
+        <a href="/" class="
+              btn btn-danger btn-rounded
+              waves-effect waves-light
+              mb-5
+              text-white
+            ">Voltar ao inicio</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{url_for('static', filename = '/assets/libs/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{url_for('static', filename = '/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+
+  <script>
+    $(".preloader").fadeOut();
+  </script>
+</body>
+
+</html>
