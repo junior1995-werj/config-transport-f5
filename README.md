@@ -18,7 +18,7 @@ Este repositório visa concentrar código e documentos voltados à migração de
 - Necessário clonar o projeto localmente:
 
 ```shell
-git clone git@gitlab.devops.somosagility.com.br:f5/transport-config-f5.git
+git clone git@gitlab.devops.somosjunior.com.br:f5/transport-config-f5.git
 ```
 
 - Para instalar as dependências:
