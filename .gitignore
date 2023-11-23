@@ -1,0 +1,63 @@
+# Backup files
+*.~
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.eggs
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Benchmarks
+.benchmarks/
+
+
+# Translations
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# Text Editors and IDEs
+*.swp
+.idea
+.vscode
+
+.pytest.restar
+README.rst
+
+.env
+.venv
+venv
+
+# remove files big-ip
+bigip_user.conf
+user_alert.conf
