@@ -18,7 +18,7 @@ Este repositório visa concentrar código e documentos voltados à migração de
 - Necessário clonar o projeto localmente:
 
 ```shell
-git clone git@gitlab.devops.somosjunior.com.br:f5/transport-config-f5.git
+git clone git@github.com:junior1995-werj/config-transport-f5.git
 ```
 
 - Para instalar as dependências:
@@ -76,7 +76,7 @@ git push
 
 ###### 1. Link de acesso:
 
-http://192.168.50.3:31779/
+
 
 ###### 2. Versionamento da aplicação:
 Versão atual: v1.0.0.
