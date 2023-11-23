@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "config-transport-f5"
+version = "0.1.0"
+description = ""
+authors = ["Ewald Werner Junior <junior.werner@somosagility.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+f5-sdk-python = "^0.9.2"
+pydantic = "^1.10.8"
+flask = "^2.3.2"
+netmiko = "^4.2.0"
+flask-socketio = "^5.3.4"
+pre-commit = "^3.3.3"
+paramiko = "^3.2.0"
+sqlalchemy = "^2.0.19"
+xmltodict = "^0.13.0"
+prettyconf = "^2.2.1"
+psycopg2 = "^2.9.6"
+gevent = "^23.7.0"
+flask-cors = "^4.0.0"
+flask-login = "^0.6.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
